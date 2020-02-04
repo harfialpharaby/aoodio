@@ -8,7 +8,7 @@ import { faHeart, faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons'
 
 export default function AlbumList(props) {
     const [albums, setAlbums] = useState([]);
-    const [isLoading, setLoading] = useState(false)
+    const [isLoading, setLoading] = useState(false)    
 
     const generateStar = (score) => {
         let stars = []
@@ -30,24 +30,30 @@ export default function AlbumList(props) {
             .then((res) => {
                 return res.json();
             }).then((data) => {
-                setAlbums(
-                    data.album.map(album => {
-                        return {
-                            id: album.idAlbum,
-                            thumbnail: album.strAlbumThumb || 'https://bandungumroh.com/sie/assets/no_image.png',
-                            albumName: album.strAlbum,
-                            artistName: album.strArtist,
-                            releaseDate: album.intYearReleased,
-                            genre: album.strGenre,
-                            label: album.strLabel,
-                            description: album.strDescriptionEN,
-                            loved: album.intLoved || 0,
-                            score: album.intScore || 'No Rate',
-                            stars: generateStar(album.intScore),
-                            voted: album.intScoreVotes || 0
-                        }
-                    })
-                )
+                console.log(data);
+                
+                if (!data.album) {
+                    setAlbums(['Not Found'])
+                } else {
+                    setAlbums(
+                        data.album.map(album => {
+                            return {
+                                id: album.idAlbum,
+                                thumbnail: album.strAlbumThumb || 'https://bandungumroh.com/sie/assets/no_image.png',
+                                albumName: album.strAlbum,
+                                artistName: album.strArtist,
+                                releaseDate: album.intYearReleased,
+                                genre: album.strGenre,
+                                label: album.strLabel,
+                                description: album.strDescriptionEN,
+                                loved: album.intLoved || 0,
+                                score: album.intScore || 'No Rate',
+                                stars: generateStar(album.intScore),
+                                voted: album.intScoreVotes || 0
+                            }
+                        })
+                    )
+                }
                 setLoading(false)
             }).catch((err) => {
                 console.log(err);
@@ -70,6 +76,20 @@ export default function AlbumList(props) {
                             <Col className="text-center"><Spinner animation="border" variant="success"/></Col>
                         </Row>
                     )
+                    : typeof albums[0] === 'string'
+                    ? (
+                        <Row>
+                            <Col className="text-center">
+                                <h1 className="font-weight-light text-capitalize">
+                                    No data found for artist
+                                    <span className="font-weight-bold text-uppercase"> {props.artist}</span>
+                                </h1>
+                                <h3 className="font-weight-light text-capitalize">
+                                    Try to find different artist or input artist fullname
+                                </h3>
+                            </Col>
+                        </Row>
+                    )
                     : (
                         <>
                             <Row>
@@ -81,7 +101,7 @@ export default function AlbumList(props) {
                                 {
                                     albums.map(album => {
                                         return (
-                                            <Col key={album.id}>
+                                            <Col key={album.id} md={3}>
                                                 <Card className="shadow-sm mb-3" style={{ width: '15rem' }}>
                                                     <Card.Img src={album.thumbnail} variant="top" style={{ width: '15rem' }}/>
                                                     <Card.Body className="p-0">
