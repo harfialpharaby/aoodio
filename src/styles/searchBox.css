@@ -1,0 +1,26 @@
+div.input-group {
+    border: 1px solid lightgrey;
+    top: .5rem;
+}
+
+span.input-group-text {
+    border: none;
+    background-color: white;
+}
+
+input.form-control {
+    box-shadow: none !important;
+    border: none;
+}
+
+.input-group:hover {
+    box-shadow: 0 .8px 1px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.19);
+}
+
+.input-group:focus-within {
+    box-shadow: 0 .8px 1px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.19);
+}
+
+::placeholder {
+    font-size: 16px;
+}

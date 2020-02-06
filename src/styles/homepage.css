@@ -1,0 +1,11 @@
+.container {
+    height: 60vh;
+}
+
+p.title {
+    font-weight: lighter;
+}
+
+span.dictionary {
+    font-size: 12px;
+}
